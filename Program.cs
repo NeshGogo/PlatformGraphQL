@@ -1,11 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformGQL.Data;
 using PlatformGQL.GraphQL;
+using GraphQL.Server.Ui.Voyager;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(opt => 
+// Only accept one query.
+// builder.Services.AddDbContext<AppDbContext>(opt => 
+//     opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddPooledDbContextFactory<AppDbContext>(opt => 
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services
     .AddGraphQLServer()
@@ -31,5 +35,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapGraphQL();
-
-app.Run();
+app.UseGraphQLVoyager("/graphQL-voyager");
+app.Run("http://localhost:5000");
