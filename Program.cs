@@ -16,6 +16,7 @@ builder.Services.AddPooledDbContextFactory<AppDbContext>(opt =>
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
+    .AddMutationType<Mutations>()
     .AddType<PlatformType>()
     .AddType<CommandType>()
     .AddFiltering()
